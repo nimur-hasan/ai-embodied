@@ -24,6 +24,7 @@ export default function Table({ data }: useDataStateProps) {
   const [columnName, setColumnName] = useState("");
   const [tableHeader, setTableHeader] = useState<any>([]);
   const [tableRows, setTableRows] = useState<any>([]);
+  const [seletedAll, setSeletecedAll] = useState(true);
 
   let newTableHeader = [
     {
@@ -227,6 +228,8 @@ export default function Table({ data }: useDataStateProps) {
     },
   ];
 
+  useEffect(() => {}, [seletedAll]);
+
   // useEffect(() => {
   //   setTableHeader(newTableHeader);
   //   setTableRows(newTableRows);
@@ -245,10 +248,7 @@ export default function Table({ data }: useDataStateProps) {
   };
 
   const handleCreateNewColumn = () => {
-    const updateTableHeader = [
-      ...tableHeader,
-      columnName
-    ];
+    const updateTableHeader = [...tableHeader, columnName];
 
     setTableHeader(updateTableHeader);
 
@@ -285,7 +285,7 @@ export default function Table({ data }: useDataStateProps) {
                 fontWeight="500"
                 p="22px"
               >
-                <Checkbox />
+                <Checkbox onChange={(e) => setSeletecedAll(e.target.checked)} />
               </Box>
             </th>
             {tableHeader.map((item: any, index: any) => (
@@ -324,21 +324,21 @@ export default function Table({ data }: useDataStateProps) {
               style={{
                 borderTop: `${
                   (item.highlight.status == 0 && "0.5px solid #E7ECF3") ||
-                  (item.highlight.status == 'green' && "1px solid #059669") ||
-                  (item.highlight.status == 'yellow' && "1px solid #D97706") ||
-                  (item.highlight.status == 'red' && "1px solid #DC2626")
+                  (item.highlight.status == "green" && "1px solid #059669") ||
+                  (item.highlight.status == "yellow" && "1px solid #D97706") ||
+                  (item.highlight.status == "red" && "1px solid #DC2626")
                 }`,
                 borderBottom: `${
                   (item.highlight.status == 0 && "0px solid #E7ECF3") ||
-                  (item.highlight.status == 'green' && "1px solid #059669") ||
-                  (item.highlight.status == 'yellow' && "1px solid #D97706") ||
-                  (item.highlight.status == 'red' && "1px solid #DC2626")
+                  (item.highlight.status == "green" && "1px solid #059669") ||
+                  (item.highlight.status == "yellow" && "1px solid #D97706") ||
+                  (item.highlight.status == "red" && "1px solid #DC2626")
                 }`,
                 background: `${
                   (item.highlight.status == 0 && "#FFF") ||
-                  (item.highlight.status == 'green' && "#F7FAF7") ||
-                  (item.highlight.status == 'yellow' && "#FDF8F2") ||
-                  (item.highlight.status == 'red' && "#FDF2F2")
+                  (item.highlight.status == "green" && "#F7FAF7") ||
+                  (item.highlight.status == "yellow" && "#FDF8F2") ||
+                  (item.highlight.status == "red" && "#FDF2F2")
                 }`,
                 // borderLeft: "0px solid #E7ECF3",
                 // borderRight: "0px solid #E7ECF3",
@@ -355,7 +355,7 @@ export default function Table({ data }: useDataStateProps) {
                     fontWeight="500"
                     p="22px"
                   >
-                    <Checkbox />
+                    <MyCheckbox defCheck={seletedAll} />
                   </Box>
                 </th>
               </td>
@@ -386,7 +386,7 @@ export default function Table({ data }: useDataStateProps) {
                         (item[item2]?.value == true ? (
                           <FiCheckCircle color="#0000ff" />
                         ) : (
-                          <FiX color="#ff0000"/>
+                          <FiX color="#ff0000" />
                         ))}
                       {/* {JSON.stringify(item[item2]?.value)} */}
                       {
@@ -395,9 +395,7 @@ export default function Table({ data }: useDataStateProps) {
                         )
                         // (item[item2]?.value == true ? "true" : "false")
                       }
-                      {
-                        !item[item2] && <MyInput defaultValue="" />
-                      }
+                      {!item[item2] && <MyInput defaultValue="" />}
                       {/* {JSON.stringify(item[item2]?.value)} */}
                     </Box>
                   </td>
@@ -453,6 +451,20 @@ export default function Table({ data }: useDataStateProps) {
         </ModalContent>
       </Modal>
     </Box>
+  );
+}
+
+export function MyCheckbox({ defCheck }: { defCheck: boolean }) {
+  const [checked, setChecked] = useState<boolean>(defCheck);
+
+  useEffect(() => {
+    setChecked(defCheck);
+  }, [defCheck]);
+  return (
+    <Checkbox
+      onChange={(e) => setChecked(e.target.checked)}
+      isChecked={checked}
+    />
   );
 }
 
