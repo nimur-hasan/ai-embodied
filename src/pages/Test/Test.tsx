@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -14,7 +14,36 @@ import BackArrow from "../../assets/icons/back-arrow.svg";
 import ExpandArrow from "../../assets/icons/expand-arrow.svg";
 import Table from "./Table";
 
-export default function Test() {
+export type useDataStateProps = {
+  data: {
+    data: any;
+    transcript: string;
+  };
+};
+
+export default function Test({ data }: useDataStateProps) {
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    const coloredData = data.data;
+    const transcript = data.transcript;
+    const boxTranscript = document.getElementById("transcript");
+
+    coloredData.map((item: any, index: any) => {
+      const str = transcript.slice(item.highlight.start, item.highlight.end);
+      console.log(str);
+
+      if (boxTranscript?.innerHTML) {
+        const newData = boxTranscript?.innerHTML.replace(
+          str,
+          `<span class="mark-text-${item.highlight.status}">${str}</span>`
+        );
+        boxTranscript.innerHTML = newData;
+        console.log(newData);
+      }
+    });
+  }, []);
+
   return (
     <Box m="12px" border="1.5px solid #E7ECF3" rounded="22px" background="#FFF">
       {/* Header */}
@@ -26,8 +55,22 @@ export default function Test() {
         pl="24px"
         pr="16px"
       >
-        <Box fontSize="24px" fontWeight="500" color="#142536">
-          Test
+        <Box
+          display="flex"
+          gap="16px"
+          alignItems="center"
+          fontSize="24px"
+          fontWeight="500"
+          color="#142536"
+        >
+          <Box>Test</Box>
+          <Box cursor="pointer" display={collapsed ? "block" : "none"}>
+            <img
+              onClick={() => setCollapsed(!collapsed)}
+              src={ExpandArrow}
+              alt=""
+            />
+          </Box>
         </Box>
         <HStack gap="16px">
           <Flex
@@ -60,7 +103,11 @@ export default function Test() {
       </Flex>
       <Box h="1.5px" bg="#E7ECF3" />
       <Flex>
-        <Box minW={{md: '220px', lg: '420px'}} w={{md: '220px', lg: '420px'}}>
+        <Box
+          display={collapsed ? "none" : "block"}
+          minW={{ md: "220px", lg: "420px" }}
+          w={{ md: "220px", lg: "420px" }}
+        >
           {/* Header */}
           <Box bg="#F2F5FA" borderRight="1px solid #E7ECF3" py="28px" px="22px">
             <HStack w="100%" justifyContent="space-between">
@@ -70,7 +117,13 @@ export default function Test() {
                   Patient Transcript #12
                 </Box>
               </Flex>
-              <img src={ExpandArrow} alt="" />
+              <Box cursor="pointer" transform="rotate(180deg)">
+                <img
+                  onClick={() => setCollapsed(!collapsed)}
+                  src={ExpandArrow}
+                  alt=""
+                />
+              </Box>
             </HStack>
             <Flex mt="30px">
               <Box
@@ -103,58 +156,13 @@ export default function Test() {
             fontSize="16px"
             lineHeight="32px"
             borderRight="1px solid #E7ECF3"
+            id="transcript"
           >
-            <span className="mark-text-green">I'm a teacher.</span>
-            <span className="mark-text-yellow">
-              Any known allergies or medical conditions? No allergies
-            </span>
-            , but I have hypertension.Thanks, John. We've got your basic
-            information.
-            <br /> Great, let's move on. Can you tell me about your family
-            medical history? Any significant illnesses or conditions that run in
-            your family?
-            <br /> As far as I know, my family doesn't have a history of major
-            illnesses. My parents are both healthy, and my grandparents lived
-            long lives without any serious health issues.
-            <span className="mark-text-red">
-              Do you ever feel down, depressed or hopeless? Sometimes, it comes
-              and goes.
-            </span>
-            Now, could you provide details about your daily habits and
-            lifestyle? Do you smoke or drink alcohol?
-            <br />{" "}
-            <span className="mark-text-yellow">
-              I don't smoke, but I do enjoy an occasional drink with friends on
-              weekends.
-            </span>{" "}
-            Maybe one or two drinks.
-            <br /> And what about your diet and exercise routines?
-            <br /> I try to eat a balanced diet, lots of vegetables, and I
-            exercise regularly. I go to the gym three times a week and enjoy
-            hiking on the weekends.
-            <br /> That sounds healthy. How about any current medications or
-            supplements you're taking?
-            <br /> I take a daily blood pressure medication for my hypertension,
-            and I also take{" "}
-            <span className="text-mark-yellow">a daily multivitamin.</span>
-            <br /> Do you have a preferred pharmacy for your prescriptions?
-            <br /> Yes, I usually get my medications at the Smith's Pharmacy on
-            Oak Street. Thanks, John. Now, let's talk about any recent illnesses
-            or hospitalizations. Have you had any surgeries or been hospitalized
-            in the past few years?
-            <br />
-            No, I haven't had any surgeries or been hospitalized recently. I've
-            been relatively healthy. The nurse just checked them a few minutes
-            ago, and they were{" "}
-            <span className="text-mark-yellow">
-              within the normal range.
-            </span>{" "}
-            Blood pressure was 120/80, and my heart rate was 75 beats per
-            minute. Well, I have been experiencing some back pain
+            {data.transcript}
           </Box>
         </Box>
-        <Box flexGrow='1'>
-          <Table />
+        <Box flexGrow="1">
+          <Table data={data} />
         </Box>
       </Flex>
     </Box>

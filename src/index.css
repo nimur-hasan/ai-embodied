@@ -15,19 +15,23 @@ code {
 }
 
 .mark-text-green {
+  display: inline;
   border-radius: 4px;
   padding: 4px;
   background-color: #05966964;
+  color: white;
 }
 .mark-text-yellow {
   border-radius: 4px;
   padding: 4px;
   background-color: #d9770664;
+  color: white;
 }
 .mark-text-red {
   border-radius: 4px;
   padding: 4px;
   background-color: #dc262664;
+  color: white;
 }
 
 .conditon0{

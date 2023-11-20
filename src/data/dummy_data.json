@@ -1,0 +1,160 @@
+{
+  "transcript": "You. Okay, ready? So okay, this is patient. How do you get to your medical appointments? By bus. You already have it. Okay. Do you use the RTC, the transit paratransit? Okay. Yeah. Are they slow? Oh, man, it oh, wow. That's terrible. So most of the time, except your caregivers, you live alone, right. Okay. And the caregiver comes seven days a week. Okay. Is it in the morning or in the evening? They come both. So he gets 2 hours in the morning and 2 hours in the evening. He's asking me how often the caregivers come, and I told them 2 hours in the morning and 2 hours in the evening, which is right. Okay, good. Do they give you your medications as well? Yeah. Okay. Are you completely bedbound, or do you get up and walk sometimes? Okay, I'm going to order you some today, so we're going to start I know that's what our company does. That's what I'm here for today is to set that up for you so you can have physical therapy and occupational therapy. Okay. I sure will. That's what I'm here to do today. Yeah. Are you able to use your pool bar up there? It hurts too much to do so. Mmhmm. All right. Who is your primary source of emotional support? Who's your emotional support? Who do you talk to when you need emotionally? Who's your emotional support? Your nephew? Okay. How often does he come to visit you? Okay. You all talk every day. Okay. Do you have any name? What's his name? Greg. Okay. Can I get the last name? Have any religious preferences that affect your health care? No. Okay. What's your nephew's last name? Oh, same as yours. Malcolm. How long been bedbound? Did you have a stroke? What happened that caused you to become bedbound? What happened to cause you to become bedbound? I know. What happened to make you stop walking. Do you know you got infections in your feet? Okay, the patient had the patient had CVA with right hemiparasis. Okay. Do you wear glasses? Okay. You had cataract removal. Is your vision clear now, or do you still have blurred vision? Any blurred vision? Is your vision blurry out of one eye? Which eye? Left or your right? Left eye blurred. Okay. He has blurred vision in his left eye. Cataract. Cataract. Okay. He has hearing AIDS in both ears. Do you have any loss of smell or nasal congestion? No. Okay. His nose is within normal limits, and I don't see any hazards in his home. He has no hazards. Do you have who's your power of attorney? Your nephew is? Okay. Are you a DNR? I do not resuscitate. Do you have those orders? Are you a DNR? Do you have any advanced directives? Like, were you in the hospital? Do you have any plans? Do you want to have interventions or get blood? Do you have any of those? No. Okay. Just the power of attorney. Got it. What was your question? Romeo. Is it the place, two story place or single story? Home story. Single story? Yeah. ",
+  "data": [
+    {
+      "name": "B0200_00",
+      "description": "Does the patient have adequate hearing, with no difficulty in normal conversation, social interaction, or listening to TV?",
+      "category": "hearing, vision and smell",
+      "highlight": {
+        "status": "green",
+        "start": 2160,
+        "end": 2193
+      },
+      "output": {
+        "type": "boolean",
+        "value": false
+      },
+      "valid": {
+        "type": "boolean",
+        "value": false
+      }
+    },
+    {
+      "name": "B1000_00",
+      "description": "Does the patient have adequate vision, able to see fine detail, such as regular print in newspapers/books?",
+      "category": "hearing, vision and smell",
+      "highlight": {
+        "status": "green",
+        "start": 2095,
+        "end": 2144
+      },
+      "output": {
+        "type": "boolean",
+        "value": false
+      },
+      "valid": {
+        "type": "boolean",
+        "value": false
+      }
+    },
+    {
+      "name": "cSS_wnl",
+      "description": "Is the patient's eyesight within normal limits?",
+      "highlight": {
+        "status": "green",
+        "start": 2095,
+        "end": 2144
+      },
+      "output": {
+        "type": "boolean",
+        "value": false
+      },
+      "valid": {
+        "type": "boolean",
+        "value": false
+      }
+    },
+    {
+      "name": "cSS_glasses",
+      "description": "Does the patient wear glasses?",
+      "highlight": {
+        "status": "green",
+        "start": 1860,
+        "end": 1887
+      },
+      "output": {
+        "type": "boolean",
+        "value": false
+      },
+      "valid": {
+        "type": "boolean",
+        "value": false
+      }
+    },
+    {
+      "name": "cSS_earswnl",
+      "description": "Is the patient's hearing within normal limits?",
+      "highlight": {
+        "status": "green",
+        "start": 2160,
+        "end": 2193
+      },
+      "output": {
+        "type": "boolean",
+        "value": false
+      },
+      "valid": {
+        "type": "boolean",
+        "value": false
+      }
+    },
+    {
+      "name": "M0040_PAT_LNAME",
+      "description": "What is the patient's last name?",
+      "highlight": {
+        "status": "green",
+        "start": 1529,
+        "end": 1556
+      },
+      "output": {
+        "type": "string",
+        "value": "Smith"
+      },
+      "valid": {
+        "type": "boolean",
+        "value": false
+      }
+    },
+    {
+      "name": "cCu_ispractices_cY",
+      "description": "Does the patient have cultural practices that influence health care?",
+      "highlight": {
+        "status": "yellow",
+        "start": 1426,
+        "end": 1491
+      },
+      "output": {
+        "type": "boolean",
+        "value": false
+      },
+      "valid": {
+        "type": "boolean",
+        "value": false
+      }
+    },
+    {
+      "name": "selectedHCPCSCode",
+      "description": "What was the primary reason for this visit?",
+      "highlight": {
+        "status": "yellow",
+        "start": 838,
+        "end": 953
+      },
+      "output": {
+        "type": "string",
+        "value": "set up physical therapy and occupational therapy"
+      },
+      "valid": {
+        "type": "boolean",
+        "value": true
+      }
+    },
+    {
+      "name": "cCu_emosupport",
+      "description": "Who is the patient's primary source of emotional support?",
+      "highlight": {
+        "status": "green",
+        "start": 1228,
+        "end": 1271
+      },
+      "output": {
+        "type": "string",
+        "value": "Nephew"
+      },
+      "valid": {
+        "type": "boolean",
+        "value": false
+      }
+    }
+  ]
+}

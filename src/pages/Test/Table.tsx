@@ -14,12 +14,16 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import EditIcon from "../../assets/icons/edit-pen-icon.svg";
+import AddIcon from "../../assets/icons/add-icon.svg";
+import { useDataStateProps } from "./Test";
+import { FiCheckCircle } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
 
-export default function Table() {
+export default function Table({ data }: useDataStateProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [columnName, setColumnName] = useState("");
-  const [tableHeader, setTableHeader] = useState<any>([])
-  const [tableRows, setTableRows] = useState<any>([])
+  const [tableHeader, setTableHeader] = useState<any>([]);
+  const [tableRows, setTableRows] = useState<any>([]);
 
   let newTableHeader = [
     {
@@ -41,10 +45,6 @@ export default function Table() {
     {
       type: "string",
       lable: "Output",
-    },
-    {
-      type: "string",
-      lable: "Action",
     },
   ];
 
@@ -73,10 +73,6 @@ export default function Table() {
           type: "input",
           lable: "John",
         },
-        {
-          type: "action",
-          lable: EditIcon,
-        },
       ],
     },
     {
@@ -101,10 +97,6 @@ export default function Table() {
         {
           type: "input",
           lable: "Teacher",
-        },
-        {
-          type: "action",
-          lable: EditIcon,
         },
       ],
     },
@@ -131,10 +123,6 @@ export default function Table() {
           type: "input",
           lable: "FALSE",
         },
-        {
-          type: "action",
-          lable: EditIcon,
-        },
       ],
     },
     {
@@ -159,10 +147,6 @@ export default function Table() {
         {
           type: "input",
           lable: "TRUE",
-        },
-        {
-          type: "action",
-          lable: EditIcon,
         },
       ],
     },
@@ -189,10 +173,6 @@ export default function Table() {
           type: "input",
           lable: "FALSE",
         },
-        {
-          type: "action",
-          lable: EditIcon,
-        },
       ],
     },
     {
@@ -217,10 +197,6 @@ export default function Table() {
         {
           type: "input",
           lable: "120/80",
-        },
-        {
-          type: "action",
-          lable: EditIcon,
         },
       ],
     },
@@ -247,74 +223,99 @@ export default function Table() {
           type: "input",
           lable: "",
         },
-        {
-          type: "action",
-          lable: EditIcon,
-        },
       ],
     },
   ];
 
-  useEffect(() => {
-    setTableHeader(newTableHeader)
-    setTableRows(newTableRows)
-  }, [])
+  // useEffect(() => {
+  //   setTableHeader(newTableHeader);
+  //   setTableRows(newTableRows);
+  // }, []);
 
   const handleCheckChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-    index2: number
+    index: number
   ) => {
-    console.log(e.target.checked);
-    console.log(index);
-    console.log(index2);
-    const selectedRow = tableRows[index].item;
-    selectedRow[index2].lable = e.target.checked;
-    console.log(tableRows);
+    // console.log(e.target.checked);
+    // console.log(index);
+    // console.log(index2);
+    // const selectedRow = tableRows[index].item;
+    // selectedRow[index2].lable = e.target.checked;
+    // console.log(tableRows);
   };
 
   const handleCreateNewColumn = () => {
-    const updateTableHeader = [...tableHeader,  {
-      type: "input",
-      lable: columnName,
-    }];
+    const updateTableHeader = [
+      ...tableHeader,
+      columnName
+    ];
 
-    let updateTableRows:any = []
-    tableRows.map((row:any, index:any) => {
-      const selectedRow = tableRows[index]
-      const selectedItem = [...selectedRow.item, {type: 'input', label: ''}]
-      selectedRow.item = selectedItem
-      updateTableRows = [...updateTableRows, selectedRow]
-    })
+    setTableHeader(updateTableHeader);
 
-    setTableRows(updateTableRows)
-    setTableHeader(updateTableHeader)
-
-    onClose()
+    onClose();
   };
 
-
-  useEffect(() => {}, [tableHeader])
+  useEffect(() => {
+    const obj = data.data[0];
+    const keys = Object.keys(obj);
+    console.log(keys);
+    let filtered: any = [];
+    keys.map((key) => {
+      if (key != "highlight") {
+        filtered = [...filtered, key];
+      }
+    });
+    console.log(filtered);
+    setTableHeader(filtered);
+    // setTableHeader(keys);
+    setTableRows(data.data);
+  }, []);
   return (
     <Box>
       <table style={{ width: "100%" }}>
         <thead>
           <tr style={{ backgroundColor: "#F2F5FA" }}>
-            {tableHeader.map((item:any, index:any) => (
+            <th>
+              <Box
+                display="flex"
+                justifyContent="flex-start"
+                alignItems="center"
+                textColor="#142536"
+                fontSize="14px"
+                fontWeight="500"
+                p="22px"
+              >
+                <Checkbox />
+              </Box>
+            </th>
+            {tableHeader.map((item: any, index: any) => (
               <th>
                 <Box
                   display="flex"
-                  justifyContent="center"
+                  justifyContent="flex-start"
                   alignItems="center"
                   textColor="#142536"
                   fontSize="14px"
                   fontWeight="500"
                   p="22px"
                 >
-                  {item.type == "checkbox" ? <Checkbox /> : item.lable}
+                  {item}
                 </Box>
               </th>
             ))}
+            <th>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                textColor="#142536"
+                fontSize="14px"
+                fontWeight="500"
+                p="22px"
+              >
+                Action
+              </Box>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -322,44 +323,55 @@ export default function Table() {
             <tr
               style={{
                 borderTop: `${
-                  (item.condition == 0 && "0.5px solid #E7ECF3") ||
-                  (item.condition == 1 && "1px solid #059669") ||
-                  (item.condition == 2 && "1px solid #D97706") ||
-                  (item.condition == 3 && "1px solid #DC2626")
+                  (item.highlight.status == 0 && "0.5px solid #E7ECF3") ||
+                  (item.highlight.status == 'green' && "1px solid #059669") ||
+                  (item.highlight.status == 'yellow' && "1px solid #D97706") ||
+                  (item.highlight.status == 'red' && "1px solid #DC2626")
                 }`,
                 borderBottom: `${
-                  (item.condition == 0 && "0px solid #E7ECF3") ||
-                  (item.condition == 1 && "1px solid #059669") ||
-                  (item.condition == 2 && "1px solid #D97706") ||
-                  (item.condition == 3 && "1px solid #DC2626")
+                  (item.highlight.status == 0 && "0px solid #E7ECF3") ||
+                  (item.highlight.status == 'green' && "1px solid #059669") ||
+                  (item.highlight.status == 'yellow' && "1px solid #D97706") ||
+                  (item.highlight.status == 'red' && "1px solid #DC2626")
                 }`,
                 background: `${
-                  (item.condition == 0 && "#FFF") ||
-                  (item.condition == 1 && "#F7FAF7") ||
-                  (item.condition == 2 && "#FDF8F2") ||
-                  (item.condition == 3 && "#FDF2F2")
+                  (item.highlight.status == 0 && "#FFF") ||
+                  (item.highlight.status == 'green' && "#F7FAF7") ||
+                  (item.highlight.status == 'yellow' && "#FDF8F2") ||
+                  (item.highlight.status == 'red' && "#FDF2F2")
                 }`,
                 // borderLeft: "0px solid #E7ECF3",
                 // borderRight: "0px solid #E7ECF3",
               }}
             >
-              {item.item.map((item2: any, index2: any) => (
-                <td>
+              <td>
+                <th>
                   <Box
                     display="flex"
                     justifyContent="flex-start"
                     alignItems="center"
-                    color="#142536"
+                    textColor="#142536"
                     fontSize="14px"
-                    px="22px"
-                    py="26px"
+                    fontWeight="500"
+                    p="22px"
                   >
-                    {item2.type == "checkbox" && (
-                      <Checkbox
-                        onChange={(e) => handleCheckChange(e, index, index2)}
-                      />
-                    )}
-                    {item2.type == "string" && item2.lable}
+                    <Checkbox />
+                  </Box>
+                </th>
+              </td>
+              {tableHeader.map((item2: any, index2: any) => (
+                <>
+                  <td>
+                    <Box
+                      display="flex"
+                      justifyContent="flex-start"
+                      alignItems="center"
+                      color="#142536"
+                      fontSize="14px"
+                      px="22px"
+                      py="26px"
+                    >
+                      {/* {item2.type == "string" && item2.lable}
                     {item2.type == "action" && (
                       <Box cursor="pointer">
                         <img onClick={onOpen} src={item2.lable} />
@@ -367,10 +379,48 @@ export default function Table() {
                     )}
                     {item2.type == "input" && (
                       <MyInput defaultValue={item2.lable} />
-                    )}
-                  </Box>
-                </td>
+                    )} */}
+                      {typeof item[item2] == "string" && item[item2]}
+                      {item[item2]?.type == "boolean" &&
+                        item2 == "valid" &&
+                        (item[item2]?.value == true ? (
+                          <FiCheckCircle color="#0000ff" />
+                        ) : (
+                          <FiX color="#ff0000"/>
+                        ))}
+                      {/* {JSON.stringify(item[item2]?.value)} */}
+                      {
+                        item2 == "output" && (
+                          <MyInput defaultValue={item[item2].value} />
+                        )
+                        // (item[item2]?.value == true ? "true" : "false")
+                      }
+                      {
+                        !item[item2] && <MyInput defaultValue="" />
+                      }
+                      {/* {JSON.stringify(item[item2]?.value)} */}
+                    </Box>
+                  </td>
+                </>
               ))}
+              <td>
+                <Box
+                  display="flex"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  color="#142536"
+                  fontSize="14px"
+                  px="22px"
+                  py="26px"
+                >
+                  <img
+                    height="26px"
+                    width="26px"
+                    onClick={onOpen}
+                    src={AddIcon}
+                  />
+                </Box>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -408,5 +458,11 @@ export default function Table() {
 
 export function MyInput({ defaultValue }: { defaultValue: string }) {
   const [value, setValue] = useState<string>(defaultValue);
-  return <Input onChange={(e) => setValue(e.target.value)} value={value} />;
+  return (
+    <Input
+      minW={"80px"}
+      onChange={(e) => setValue(e.target.value)}
+      value={value}
+    />
+  );
 }
